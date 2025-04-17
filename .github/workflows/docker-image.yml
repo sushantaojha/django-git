@@ -32,6 +32,9 @@ jobs:
     #     push: true
     #     tags: sushantao/django-git:latest
         
+    - name: Show directory inside subdir
+      run: pwd
+      
     - name: Build and Push to docker hub
       uses: docker/build-push-action@v6
       with:
