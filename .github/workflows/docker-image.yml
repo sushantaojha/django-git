@@ -47,16 +47,18 @@ jobs:
           pwd
           echo "$PRIVATE_KEY" > private_key
           chmod 600 private_key
-          ssh -tt -v -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
-          # sudo apt-get update -y
+          ssh -tt -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
+          sudo apt-get update -y
           # sudo apt-get install git -y
 
           cd /home/${USER_NAME}
+          echo "Line 55: Current working directory is $(pwd)"
           if [ ! -d "django-git" ]; then
             git clone https://github.com/sushantaojha/django-git.git
           else
             cd django-git && git pull origin main
           fi
+          echo "Line 61: Current working directory is $(pwd)"
 
           # Change to the repo directory and pull the Docker images
           cd /home/${USER_NAME}/django-git
