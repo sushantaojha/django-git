@@ -45,7 +45,6 @@ jobs:
           USER_NAME: ${{secrets.USER_NAME}}
         run: |
           pwd
-          ipconfig
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.225.10.16
           # ${USER_NAME}@${HOSTNAME}
