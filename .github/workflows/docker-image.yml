@@ -7,15 +7,12 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-# new push
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
-
+      
     - name: Show directory inside subdir
       run: ls
     # - name: Build the Docker image
@@ -28,12 +25,6 @@ jobs:
         username: sushantao
         password: ${{ secrets.DOCKERHUB_TOKEN }} 
         
-    # - name: Push to docker hub
-    #   uses: docker/build-push-action@v6
-    #   with:
-    #     push: true
-    #     tags: sushantao/django-git:latest
-      
     - name: Build and Push to docker hub
       uses: docker/build-push-action@v6
       with:
@@ -41,3 +32,40 @@ jobs:
         file: ./app/Dockerfile
         push: true
         tags: sushantao/django-git:latest
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        
+      - name: SSH into EC2 instance
+        env: 
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOSTNAME: ${{secrets.SSH_HOST}}
+          USER_NAME: ${{secrets.USER_NAME}}
+        run: |
+          pwd
+          echo "$PRIVATE_KEY" > private_key && chmod private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
+                    # Install Git if it's not already installed
+          sudo apt-get update -y
+          sudo apt-get install git -y
+
+          cd /home/${USER_NAME}
+          if [ ! -d "django-git" ]; then
+            git clone https://github.com/sushantaojha/django-git.git
+          else
+            cd django-git && git pull origin main
+          fi
+
+          # Change to the repo directory and pull the Docker images
+          cd /home/${USER_NAME}/django-git
+
+          docker compose up -d
+
+          
+   
+
+      
+          
+          
