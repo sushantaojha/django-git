@@ -50,7 +50,8 @@ jobs:
           ssh -tt -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} << 'EOF'
             # sudo apt-get update -y
             # sudo apt-get install git -y
-            cd /home/${USER_NAME}
+            # cd /home/${USER_NAME}
+            cd /home/ubuntu
             echo "Line 55: Current working directory is $(pwd)"
             if [ ! -d "django-git" ]; then
               git clone https://github.com/sushantaojha/django-git.git
