@@ -45,7 +45,7 @@ jobs:
           USER_NAME: ${{secrets.USER_NAME}}
         run: |
           pwd
-          echo "$PRIVATE_KEY" > private_key && chmod private_key
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
                     # Install Git if it's not already installed
           sudo apt-get update -y
