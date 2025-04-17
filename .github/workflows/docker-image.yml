@@ -15,7 +15,9 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
-    
+
+    - name: Show directory inside subdir
+      run: pwd
     # - name: Build the Docker image
     #   # run: docker build -t . --file Dockerfile --tag sushantao/django-git:$(date +%s)
     #   run: docker build -t . --file Dockerfile --tag sushantao/django-git:latest
@@ -31,9 +33,6 @@ jobs:
     #   with:
     #     push: true
     #     tags: sushantao/django-git:latest
-        
-    - name: Show directory inside subdir
-      run: pwd
       
     - name: Build and Push to docker hub
       uses: docker/build-push-action@v6
