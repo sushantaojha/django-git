@@ -62,4 +62,5 @@ jobs:
             # Change to the repo directory and pull the Docker images
             cd /home/${USER_NAME}/django-git
             docker compose up -d
+            exit
           EOF
